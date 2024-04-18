@@ -7,6 +7,5 @@ const router = express.Router();
 router.route('/').post(protect, createOrder);
 router.route('/:id').get(protect, getOrderByID);
 
-//comment check
 
 export default router;
