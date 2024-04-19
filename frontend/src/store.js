@@ -6,7 +6,10 @@ import {
      productListReducer,
      productDetailsReducer    
 } from './reducers/productReducer';
-import { orderCreateReducer } from './reducers/orderReducer'; 
+import { 
+    orderCreateReducer ,
+    orderDetailsReducer ,
+} from './reducers/orderReducer'; 
 import { 
     userLoginReducer,
     userRegisterReducer,
@@ -23,6 +26,7 @@ const reducer = combineReducers({
     userDetails: userDetailsReducer,
     userUpdateProfile: userUpdateProfileReducer,
     orderCreate: orderCreateReducer,
+    orderDetails: orderDetailsReducer,
 });
 
     {/* Fetch "Cart items list" from local user Machine  */}
