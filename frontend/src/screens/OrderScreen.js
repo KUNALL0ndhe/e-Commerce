@@ -44,7 +44,7 @@ const OrderScreen = () => {
         <Message type='error'>{error}</Message>
     ) : (
         <>
-        <Flex w='full' py='5' direction='column'>
+        <Flex fontFamily='Montserrat' w='full' py='5' direction='column'>
             <Grid templateColumns='3fr 2fr' gap='20' >
                 {/* Column 1 */}
                 <Flex direction='column'>
@@ -98,7 +98,7 @@ const OrderScreen = () => {
                     </Box>
 
                     {/* Order Items */}
-                    <Box borderBottom='1px' py='6' borderColor='gray.300'>
+                    <Box borderBottom='1px' py='6' borderColor='gray.300' display={{base:'none', md:'contents'}}>
                         <Heading as='h2' mb='3' fontSize='2xl' fontWeight='semibold'>
                             Order Items
                         </Heading>
@@ -151,16 +151,73 @@ const OrderScreen = () => {
                 borderColor='gray.300'
                 >
                     <Box>
-                        <Heading mb='6'>
-                            
+                        <Heading mb='6' as='h2' fontSize='3xl' fontWeight='bold'>
+                            Order Summary
                         </Heading>
+
+                        {/* Items Price */}
+                        <Flex
+                        borderBottom='1px'
+                        py='2'
+                        borderColor='gray.200'
+                        alignItems='center'
+                        justifyContent='space-between'
+                        >
+                            <Text fontSize='xl'>Items</Text>
+                            <Text fontWeight='semibold' fontSize='xl'>
+                            ₹{order.itemsPrice}
+                            </Text>
+                        </Flex>
+
+                        {/* Shipping Price */}
+                        <Flex
+                        borderBottom='1px'
+                        py='2'
+                        borderColor='gray.200'
+                        alignItems='center'
+                        justifyContent='space-between'
+                        >
+                            <Text fontSize='xl'>Shipping</Text>
+                            <Text fontWeight='semibold' fontSize='xl'>
+                            ₹{order.shippingPrice}
+                            </Text>
+                        </Flex>
+
+                        {/* TAX Price */}
+                        <Flex
+                        borderBottom='1px'
+                        py='2'
+                        borderColor='gray.200'
+                        alignItems='center'
+                        justifyContent='space-between'>
+                            <Text fontSize='xl'>Tax</Text>
+                            <Text fontWeight='semibold' fontSize='xl'>
+                            ₹{order.taxPrice}
+                            </Text>
+                        </Flex>
+
+                        {/* Total Price */}
+                        <Flex
+                        borderBottom='1px'
+                        py='2'
+                        borderColor='center'
+                        justifyContent='space-between'
+                        >
+                            <Text fontSize='xl'>
+                                Total
+                            </Text>
+                            <Text fontWeight='semibold' fontSize='xl'>
+                            ₹{order.totalPrice}
+                            </Text>
+                        </Flex>
                     </Box>
 
+                    {/* Payment Button */}
                 </Flex>
             </Grid>
         </Flex>
         </>
-    )
-}
+    );
+};
 
 export default OrderScreen;
