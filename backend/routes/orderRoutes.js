@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.route('/').post(protect, createOrder);
 router.route('/:id').get(protect, getOrderByID);
-router.route('/:id/pay').get(protect, updateOrderToPaid); // update order detail payment
+router.route('/:id/pay').get(protect, updateOrderToPaid); 
 
 
 
