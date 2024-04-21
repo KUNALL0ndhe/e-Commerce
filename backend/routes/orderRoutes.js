@@ -12,6 +12,4 @@ router.route('/').post(protect, createOrder);
 router.route('/:id').get(protect, getOrderByID);
 router.route('/:id/pay').get(protect, updateOrderToPaid); 
 
-
-
 export default router;
