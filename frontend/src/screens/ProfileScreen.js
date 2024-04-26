@@ -5,16 +5,24 @@ import {
 	FormLabel,
 	Grid,
 	Heading,
+	Icon,
 	Input,
-	Link,
 	Spacer,
-	Text,
+	Table,
+	Tbody,
+	Td,
+	Th,
+	Thead,
+	Tr,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import { IoWarning } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { listMyOrders } from '../actions/orderAction'
 import { getUserDetails, updateUserProfile } from '../actions/userActions';
 import FormContainer from '../components/FormContainer';
+import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { USER_DETAILS_RESET } from '../constants/userConstants';
 
@@ -34,6 +42,12 @@ const ProfileScreen = () => {
 	const userLogin = useSelector((state) => state.userLogin);
 	const { userInfo } = userLogin;
 
+	const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
+	const { success } = userUpdateProfile;
+
+	const orderMyList = useSelector((state) => state.orderMyList);
+	const { loading: loadingOrders, error: errorOrders, orders } = orderMyList;
+
 	useEffect(() => {
 		if (!userInfo) {
 			navigate('/login');
@@ -41,6 +55,7 @@ const ProfileScreen = () => {
 			
 		if (user && !user.name) {
 				dispatch(getUserDetails());
+				dispatch(listMyOrders());
 			} 
 		
 		if (user && user.name){
@@ -49,7 +64,7 @@ const ProfileScreen = () => {
 				}
 			
 		
-	}, [dispatch, navigate, getUserDetails, user, userInfo]);
+	}, [dispatch, navigate, getUserDetails, user, userInfo, success]);
 
 	const submitHandler = (e) => {
 		e.preventDefault();
@@ -129,6 +144,66 @@ const ProfileScreen = () => {
 						</Button>
 					</form>
 				</FormContainer>
+			</Flex>
+
+			{/* Orders */}
+			<Flex direction='column'>
+				<Heading as='h2' mb='4'>
+					My Orders
+				</Heading>
+
+				{loadingOrders ? (
+					<Loader />
+				): errorOrders ? (
+					<Message type='error' >{errorOrders}</Message>
+				) : (
+					<Table variant='striped'>
+						<Thead>
+							<Tr>
+								<Th>ID</Th>
+								<Th>DATE</Th>
+								<Th>TOTAL</Th>
+								<Th>PAID</Th>
+								<Th>DELIVERED</Th>
+								<Th></Th>
+							</Tr>
+						</Thead>
+						<Tbody fontSize='smaller'>
+							{orders.map((order) => (
+								<Tr key={order._id}>
+									<Td>{order._id}</Td>
+									<Td>{new Date(order.createdAt).toDateString()}</Td>
+									<Td>₹{order.totalPrice}</Td>
+									<Td>
+										{order.isPaid ? (
+											new Date(order.paidAt).toDateString()
+										): (
+											<Icon as={IoWarning} color='red' />
+										)} {' '}
+									</Td>
+									<Td>
+										{order.isDelivered ? (
+											new Date(order.deliveredAt).toDateString()
+											) : (
+												<Icon as={IoWarning} color='red' />
+											)} {' '}
+									</Td>
+									<Td>
+										<Button
+										as={RouterLink}
+										to={`/order/${order._id}`}
+										color='white'
+										bgColor='black'
+										size='sm'
+										>
+											Details
+										</Button>
+									</Td>
+								</Tr>
+							))}
+						</Tbody>
+					</Table>
+				)}
 			</Flex>
 		</Grid>
 	);

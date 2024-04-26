@@ -9,6 +9,7 @@ import {
 import { 
     orderCreateReducer ,
     orderDetailsReducer ,
+    orderMyListReducer,
     orderPayReducer,
 } from './reducers/orderReducer'; 
 import { 
@@ -29,6 +30,7 @@ const reducer = combineReducers({
     orderCreate: orderCreateReducer,
     orderDetails: orderDetailsReducer,
     orderPay: orderPayReducer,
+    orderMyList: orderMyListReducer,
 });
 
     {/* Fetch "Cart items list" from local user Machine  */}
