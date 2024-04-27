@@ -5,7 +5,7 @@ import generateToken from '../utils/generateToken.js';
 /**
 *  @description   Auth User
    @route        Post /api/users/login
-   @access public
+   @access          public
 *
 */
 
@@ -32,7 +32,7 @@ const authUser = asyncHandler(async (req, res) => {
 /**
 *  @description   Get user profile
    @route        Get /api/users/profile
-   @access private
+   @access          private
 *
 */
 
@@ -55,7 +55,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 /**
 *  @description   Register new user
    @route        Post /api/users/
-   @access public
+   @access          public
 *
 */
 
@@ -88,7 +88,7 @@ const registerUser = asyncHandler ( async (req, res) => {
 /**
 *  @description   Update user profile
    @route        PUT /api/users/profile
-   @access private
+   @access          private
 *
 */
 
@@ -117,4 +117,15 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     }
 })
 
-export { authUser, getUserProfile , registerUser, updateUserProfile};
+/**
+*  @description   Get all user
+   @route        GET /api/users
+   @access        private/admin
+*
+*/
+const getUsers = asyncHandler( async(req, res) => {
+    const users = await User.find({}).select('-password');
+    res.json(users);
+})
+
+export { authUser, getUserProfile , registerUser, getUsers, updateUserProfile};

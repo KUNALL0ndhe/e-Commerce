@@ -59,8 +59,6 @@ export const login = ( email, password) => async (dispatch) => {
     };
 };
 
-
-
 // { */
 //      ****USER LOGOUT****
 // *}
@@ -70,7 +68,7 @@ export const logout = () => async (dispatch) => {
     dispatch({ type: USER_DETAILS_RESET});
     dispatch({ type: USER_UPDATE_PROFILE_RESET});
     dispatch({ type: ORDER_MY_LIST_RESET});
-    dispatch({ type: ORDER_PAY_RESET});
+    dispatch({ type: ORDER_PAY_RESET}); 
 };
 
 
