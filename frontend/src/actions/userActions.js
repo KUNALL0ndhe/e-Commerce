@@ -22,6 +22,11 @@ import {
     USER_UPDATE_PROFILE_FAIL,
     USER_UPDATE_PROFILE_SUCCESS,
     USER_UPDATE_PROFILE_RESET,
+
+    USER_LIST_FAIL,
+    USER_LIST_REQUEST,
+    USER_LIST_SUCCESS,
+    USER_LIST_RESET,
 } from '../constants/userConstants';
 
 
@@ -68,7 +73,8 @@ export const logout = () => async (dispatch) => {
     dispatch({ type: USER_DETAILS_RESET});
     dispatch({ type: USER_UPDATE_PROFILE_RESET});
     dispatch({ type: ORDER_MY_LIST_RESET});
-    dispatch({ type: ORDER_PAY_RESET}); 
+    dispatch({ type: ORDER_PAY_RESET });
+    dispatch({ type: USER_LIST_RESET })
 };
 
 
@@ -176,4 +182,34 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
         : err.message,
     })
     }
-} 
+} // { */
+//      ****LIST ALL USERS****
+// *}
+export const listUsers = () => async (dispatch, getState) => {
+    try {
+        dispatch ({ type: USER_LIST_REQUEST});
+
+        const {
+            userLogin: { userInfo },
+        } = getState();
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`,
+            },
+        }
+
+        const { data } = await axios.get(`/api/users`, config );
+
+        dispatch({ type: USER_LIST_SUCCESS, payload: data });
+        
+    } catch (err) {
+        dispatch({
+            type: USER_LIST_FAIL,
+            payload: 
+                err.response && err.response.data.message
+                    ? err.response.data.message
+                    : err.message,
+        })
+    }
+}
