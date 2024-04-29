@@ -16,6 +16,7 @@ import {
     userLoginReducer,
     userRegisterReducer,
     userListReducer,
+    userDeleteReducer,
     userDetailsReducer,
     userUpdateProfileReducer,
 } from './reducers/userReducer';
@@ -27,12 +28,13 @@ const reducer = combineReducers({
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,
     userDetails: userDetailsReducer,
+    userList: userListReducer,
     userUpdateProfile: userUpdateProfileReducer,
+    userDelete: userDeleteReducer,
     orderCreate: orderCreateReducer,
     orderDetails: orderDetailsReducer,
     orderPay: orderPayReducer,
     orderMyList: orderMyListReducer,
-    userList: userListReducer,
 });
 
     {/* Fetch "Cart items list" from local user Machine  */}

@@ -17,11 +17,10 @@ import {
     IoCloseCircleSharp,
     IoPencilSharp,
     IoTrashBinSharp,
-    IoTrashSharp,
 } from 'react-icons/io5';
 import { useDispatch, useSelector} from 'react-redux';
 import { Link as RouterLink, useNavigate }from 'react-router-dom';
-import { listUsers } from '../actions/userActions';
+import { deleteUser, listUsers } from '../actions/userActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
@@ -35,17 +34,20 @@ const UserListScreen = () => {
     const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin;
 
+    const userDelete = useSelector((state)=> state.userDelete);
+    const { success } = userDelete;
+
     useEffect(()=> {
         if (userInfo && userInfo.isAdmin) {
             dispatch(listUsers());
         } else {
             navigate('/login');
         }
-    },[dispatch, userInfo, navigate]);
+    },[dispatch, userInfo, success, navigate]);
 
     const deleteHandler = (id) => {
         if (window.confirm('Are you sure ?')) {
-            console.log('DELETE USER');
+            dispatch(deleteUser(id));
         }
     };
 
@@ -81,7 +83,7 @@ const UserListScreen = () => {
                                 <Td>
                                     {user.isAdmin ? (
                                         <Icon
-                                        as={IoCloseCircleSharp}
+                                        as={IoCheckmarkCircleSharp}
                                         color='green.600'
                                         w='8'
                                         h='8'

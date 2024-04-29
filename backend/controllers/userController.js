@@ -123,9 +123,30 @@ const updateUserProfile = asyncHandler(async (req, res) => {
    @access        private/admin
 *
 */
-const getUsers = asyncHandler( async(req, res) => {
+const getUsers = asyncHandler( async (req, res) => {
     const users = await User.find({}).select('-password');
     res.json(users);
-})
+});
 
-export { authUser, getUserProfile , registerUser, getUsers, updateUserProfile};
+/**
+*  @description   Delete a user
+   @route        DELETE /api/users/:id
+   @access        private/admin
+*
+*/
+const deleteUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+        res.status(404);
+        throw new Error('User not found');
+       }
+   if (req.user._id.toString() === req.params.id.toString()) {
+    res.status(400);
+    throw new Error('Sorry You cannot Delete yourself');   
+   } else {
+    await User.deleteOne(user);
+    res.json({ message: 'User Deleted' });
+   }
+});
+export { authUser, deleteUser, getUserProfile , registerUser, getUsers, updateUserProfile};
