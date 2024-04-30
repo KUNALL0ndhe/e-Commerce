@@ -26,6 +26,16 @@ import {
     USER_DELETE_SUCCESS,
     USER_DELETE_FAIL,
     USER_DELETE_REQUEST,
+
+    GET_USER_REQUEST,
+    GET_USER_SUCCESS,
+    GET_USER_FAIL,
+    GET_USER_RESET,
+
+    USER_UPDATE_REQUEST,
+    USER_UPDATE_SUCCESS,
+    USER_UPDATE_FAIL,
+    USER_UPDATE_RESET,
 } from "../constants/userConstants";
 
 
@@ -142,3 +152,37 @@ export const userDeleteReducer = ( state = {}, action) => {
             return state;
     }
 }
+// { */
+//      ****GET USERS****
+// *}
+export const userByIdReducer = (state = { user: {} }, action) => {
+    switch (action.type) {
+        case GET_USER_REQUEST:
+            return { ...state, loading: true};
+        case GET_USER_SUCCESS:
+            return { loading: false, user: action.payload };
+        case GET_USER_FAIL:
+            return { loading: false, error: action.payload };
+        case GET_USER_RESET:
+            return { user: {} };
+            default:
+            return state; 
+    }
+};
+// { */
+//      ****UPDATE USER****
+// *}
+export const userUpdateReducer = ( state = { user: {}}, action) => {
+    switch (action.type) {
+        case USER_UPDATE_REQUEST:
+            return { ...state, loading: true};
+        case USER_UPDATE_SUCCESS:
+            return { loading: false, user: action.payload, success: true};
+        case USER_UPDATE_FAIL:
+            return { loading: false, error: action.payload };
+        case USER_UPDATE_RESET:
+            return { user: {} };
+        default:
+            return state;
+    }
+};

@@ -84,14 +84,14 @@ const UserListScreen = () => {
                                     {user.isAdmin ? (
                                         <Icon
                                         as={IoCheckmarkCircleSharp}
-                                        color='green.600'
+                                        color='green'
                                         w='8'
                                         h='8'
                                         />
                                     ) : (
                                         <Icon 
                                         as={IoCloseCircleSharp}
-                                        color='red.600'
+                                        color='red'
                                         w='8'
                                         h='8'
                                         />
@@ -106,14 +106,14 @@ const UserListScreen = () => {
                                         bgColor='black'
                                         color='white'
                                         >
-                                            <Icon as={IoPencilSharp} color='white' size='sm' />
+                                            <Icon as={IoPencilSharp} color='teal.500' size='sm' />
                                         </Button>
                                         <Button 
                                         mr='4'
                                         color='white'
                                         bgColor='black'
                                         onClick={() => deleteHandler(user._id)}>
-                                            <Icon as={IoTrashBinSharp} color='white' size='sm'/>
+                                            <Icon as={IoTrashBinSharp} color='red.600' size='sm'/>
                                             </Button>
                                     </Flex>
                                 </Td>
