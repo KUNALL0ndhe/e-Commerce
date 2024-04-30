@@ -91,7 +91,7 @@ const UserListScreen = () => {
                                     ) : (
                                         <Icon 
                                         as={IoCloseCircleSharp}
-                                        color='red'
+                                        color='red.500'
                                         w='8'
                                         h='8'
                                         />

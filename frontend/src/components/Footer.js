@@ -54,7 +54,8 @@ const Footer = () => {
 </Grid>
 <Grid templateRows='repeat(2, 1fr)' gap='6'  >
                <Text>Product Rights <br/>Reserved by <br/>Louis Vuitton</Text>
-               <Image src='https://imgs.search.brave.com/aTRqB8pP15U3mZ_obbI0E942eotHAmoAa1b9L8AVUwQ/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9hYm91/dC5naXRsYWIuY29t/L2ltYWdlcy9wcmVz/cy9sb2dvL3BuZy9v/bGQtbG9nby1uby1i/a2dyZC5wbmc' h='35px'/>
+              <Link href='https://github.com/KUNALL0ndhe/e-Commerce'><Image src='https://pngimg.com/d/github_PNG65.png'  h='35px'/>
+              </Link>
   </Grid>
 </Grid>
 
