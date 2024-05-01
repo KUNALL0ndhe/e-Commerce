@@ -88,7 +88,7 @@ export const logout = () => async (dispatch) => {
     dispatch({ type: USER_UPDATE_PROFILE_RESET});
     dispatch({ type: ORDER_MY_LIST_RESET});
     dispatch({ type: ORDER_PAY_RESET });
-    dispatch({ type: USER_LIST_RESET })
+    dispatch({ type: USER_LIST_RESET });
 };
 
 

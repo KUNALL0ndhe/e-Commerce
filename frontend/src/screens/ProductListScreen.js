@@ -15,9 +15,14 @@ import { useEffect} from 'react';
 import { IoAdd, IoPencilSharp, IoTrashBinSharp } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { listProducts, deleteProduct} from '../actions/productActions';
+import { 
+    listProducts,
+    createProduct,
+    deleteProduct
+} from '../actions/productActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import { PRODUCT_CREATE_RESET } from '../constants/productConstants';
 
 const ProductListScreen = () => {
 
@@ -30,6 +35,14 @@ const ProductListScreen = () => {
     const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin;
 
+    const productCreate = useSelector((state) => state.productCreate);
+    const {
+        loading: loadingCreate,
+        error: errorCreate,
+        product: createdProduct,
+        success: successCreate,
+    } = productCreate;
+
     const productDelete = useSelector((state) => state.productDelete);
     const { 
         loading : loadingDelete,
@@ -38,12 +51,24 @@ const ProductListScreen = () => {
     } = productDelete;
 
     useEffect(() => {
-        if (userInfo && userInfo.isAdmin) {
-            dispatch(listProducts());
-        } else {
-            navigate('/login');
-        }
-    }, [ userInfo, dispatch, navigate, successDelete]);
+        dispatch({type: PRODUCT_CREATE_RESET});
+
+      if (!userInfo.isAdmin) {
+        navigate('/login');
+      }
+      if (successCreate) {
+        navigate(`/admin/product/${createdProduct._id}/edit`);
+      } else {
+        dispatch(listProducts());
+      }
+    }, [ 
+        userInfo,
+        dispatch,
+        navigate,
+        successDelete,
+        successCreate,
+        createdProduct,
+    ]);
 
     const deleteHandler = (id) => {
         if (window.confirm('Are you sure?')) {
@@ -52,8 +77,8 @@ const ProductListScreen = () => {
     };
 
     const createProductHandler = () => {
-        // Create Products
-    };
+        dispatch(createProduct())
+        };
 
     return (
         <>
@@ -68,6 +93,8 @@ const ProductListScreen = () => {
             </Flex>
             {loadingDelete && <Loader />}
             {errorDelete && <Message type='error' >{errorDelete}</Message>}
+            {loadingCreate && <Loader/>}
+            {errorCreate && <Message type='error'>{errorCreate}</Message>}
 
             {loading ? (
                 <Loader />
