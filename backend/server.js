@@ -1,10 +1,12 @@
 import colors from 'colors';
 import dotenv from 'dotenv';
 import express from 'express';
+import path from 'path';
 import connectDB from './config/db.js';
 import { errorHandler, notFound } from './middlewares/errorMiddleware.js';
 import orderRoutes from './routes/orderRoutes.js';
 import productRoutes from './routes/productRoutes.js';
+import uploadRoutes from './routes/uploadRoutes.js'
 import userRoutes from './routes/userRoutes.js';
 
 dotenv.config();
@@ -21,6 +23,11 @@ app.get('/', (req, res) => {
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/uploads', uploadRoutes)
+
+// Create a static folder
+const __dirname = path.resolve(); //as users path will change and the loaction string will change accordingly
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 app.use(notFound);
 app.use(errorHandler);

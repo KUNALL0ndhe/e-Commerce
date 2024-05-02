@@ -99,9 +99,7 @@ const Header = () => {
             fontFamily='Montserrat'
             rightIcon={<IoChevronDown />}
             _hover={{ textDecor: 'none', opacity: '0.7'}}
-            >
-    
-              {userInfo.name}
+            > {userInfo.name}
             </MenuButton>
             <MenuList bgColor='white'>
                 <MenuItem
@@ -118,6 +116,30 @@ const Header = () => {
           login
         </HeaderMenuItem >
         )}
+
+        {userInfo && userInfo.isAdmin && (
+          <Menu>
+            <MenuButton 
+            as={Button}
+            rightIcon={<IoChevronDown />}
+            colorScheme='blackAlpha'
+            _hover={{ textDecor: 'none', opacity: '0.7' }}
+            >
+              Manage
+            </MenuButton>
+            <MenuList>
+              <MenuItem as={RouterLink} to='/admin/userlist'>
+                User List
+              </MenuItem>
+              <MenuItem as={RouterLink} to='/admin/productlist' >
+              Product List
+              </MenuItem>
+              <MenuItem as={RouterLink} to='/admin/orderlist' >
+                Order List
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        ) } 
       </Box>
     </Flex>
   );
