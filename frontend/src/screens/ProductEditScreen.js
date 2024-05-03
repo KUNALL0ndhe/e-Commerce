@@ -197,11 +197,25 @@ return (
                         <Input type='file' onChange={uploadImageHandler} />
                     </FormControl>
                     <Spacer h='3'/>
+                     {/* Img */}
+                     <FormControl id='img' isRequired >
+                        <FormLabel>
+                            2nd Product Image
+                        </FormLabel>
+                        <Input 
+                        type='text'
+                        placeholder='Enter 3rd Image url'
+                        value={img}
+                        onChange={(e) => setImg(e.target.value)}
+                        />
+                        <Input type='file' onChange={uploadImgHandler} />
+                    </FormControl>
+                    <Spacer h='3' />
 
                     {/* Imag */}
                     <FormControl id='imag' isRequired>
                         <FormLabel>
-                            2nd Product Image
+                            3rd Product Image
                         </FormLabel>
                         <Input
                          type='text'
@@ -213,20 +227,6 @@ return (
                     </FormControl>
                     <Spacer h='3'/>
 
-                    {/* Img */}
-                    <FormControl id='img' isRequired >
-                        <FormLabel>
-                            3rd Product Image
-                        </FormLabel>
-                        <Input 
-                        type='text'
-                        placeholder='Enter 3rd Image url'
-                        value={img}
-                        onChange={(e) => setImg(e.target.value)}
-                        />
-                        <Input type='file' onChange={uploadImgHandler} />
-                    </FormControl>
-                    <Spacer h='3' />
 
                     {/* Brand */}
 
