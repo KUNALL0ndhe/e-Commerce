@@ -8,6 +8,7 @@ import {
     Link,
     Spacer,
 } from '@chakra-ui/react';
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
@@ -83,6 +84,64 @@ const ProductEditScreen = () => {
     })
     );
    };
+
+   const uploadImageHandler = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+     const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+     };
+     
+     const { data } = await axios.post(`/api/uploads`, formData, config);
+     setImage(data);
+    } catch (err) {
+        console.error(err);        
+    }
+   };
+
+   const uploadImagHandler = async(e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            },
+        };
+
+     const { data } = await axios.post('/api/uploads', formData, config);
+     setImag(data);
+    } catch (err) {
+        console.error(err);
+        
+    }
+   };
+
+   const uploadImgHandler = async(e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            },
+        };
+
+    const { data } = await axios.post(`/api/uploads`, formData, config);
+     setImg(data);
+    } catch (err) {
+        console.error(err);        
+    }
+   }
 return (
     <>
     <Link as={RouterLink} to='/admin/productlist'>
@@ -135,6 +194,7 @@ return (
                         placeholder='Enter 1st Image url'
                         value={image}
                         onChange={(e) => setImage(e.target.value)}/>
+                        <Input type='file' onChange={uploadImageHandler} />
                     </FormControl>
                     <Spacer h='3'/>
 
@@ -149,6 +209,7 @@ return (
                          value={imag}
                          onChange={(e) => setImag(e.target.value)}
                         />
+                        <Input type='file' onChange={uploadImagHandler} />
                     </FormControl>
                     <Spacer h='3'/>
 
@@ -163,6 +224,7 @@ return (
                         value={img}
                         onChange={(e) => setImg(e.target.value)}
                         />
+                        <Input type='file' onChange={uploadImgHandler} />
                     </FormControl>
                     <Spacer h='3' />
 
@@ -205,6 +267,18 @@ return (
                         />
                     </FormControl>
                     <Spacer h='3'/>
+                     {/* Description */}
+
+                     <FormControl id='description' is isRequired>
+                        <FormLabel>Description</FormLabel>
+                        <Input
+                        type='text'
+                        placeholder='Description'
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        />
+
+                     </FormControl>
                     <Button
                     type='submit'
                     isLoading={loading}

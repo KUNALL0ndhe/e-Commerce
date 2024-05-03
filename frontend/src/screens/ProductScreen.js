@@ -47,8 +47,8 @@ const ProductScreen = () => {
 {/*                  *                * Column 2  *                 *                              */             }
 
             <Grid templateRows='1fr 1fr' display = {{ base: 'contents', md: 'grid'}} gap='8' w='400px' h='200px'>
-            < Image src={product.img} alt={product.name} borderRadius='sm' />
-            < Image src={product.imag} alt={product.name} borderRadius='sm' />
+            < Image src={product.img} alt={product.name} borderRadius='sm' h='350px' w='400px' objectFit='cover'/>
+            < Image src={product.imag} alt={product.name} borderRadius='sm'  h='350px' w='400px' objectFit='cover'/>
             </Grid>
 
 {/*                  *                * Column 3  *                 *                              */             }
