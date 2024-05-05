@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { 
+    ORDER_LIST_RESET,
     ORDER_MY_LIST_RESET,
     ORDER_PAY_RESET,
 } from '../constants/orderConstants';
@@ -89,6 +90,7 @@ export const logout = () => async (dispatch) => {
     dispatch({ type: ORDER_MY_LIST_RESET});
     dispatch({ type: ORDER_PAY_RESET });
     dispatch({ type: USER_LIST_RESET });
+    dispatch({ type: ORDER_LIST_RESET });
 };
 
 

@@ -56,7 +56,7 @@ const Header = () => {
       zIndex="9999"
     >
 {/*                  *                * LOGO  *                 *                              */             }
-      <Link as={RouterLink} to="/">
+      <Link as={RouterLink} to="/home">
         <Heading
           as="h1"
           // color= '#7928CA'
