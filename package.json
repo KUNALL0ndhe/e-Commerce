@@ -4,13 +4,13 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "node backend/server",
-    "server": "nodemon backend/server",
-    "client": "npm run start --prefix frontend",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "data:import": "node backend/seeder",
-    "data:destroy": "node backend/seeder -d"
-  },
+		"start": "node backend/server",
+		"server": "nodemon backend/server",
+		"client": "npm run start --prefix frontend",
+		"dev": "concurrently \"npm run server\" \"npm run client\"",
+		"data:import": "node backend/seeder",
+		"data:destroy": "node backend/seeder -d"
+	},
   "author": "Kunal Londhe",
   "license": "ISC",
   "description": "",
