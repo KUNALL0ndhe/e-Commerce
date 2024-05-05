@@ -1,11 +1,27 @@
-import { Box, Button, Flex, Grid, Heading, Image, Text, Select } from "@chakra-ui/react";
+import { 
+    Box,
+    Button,
+    Flex,
+    FormControl,
+    FormLabel,
+    Grid,
+    Heading,
+    Image,
+    Text,
+    Textarea,
+    Select, 
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector} from 'react-redux';
-import { listProductDetails } from '../actions/productActions';
+import { 
+    listProductDetails,
+    createProductReview,
+} from '../actions/productActions';
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import Rating from "../components/Rating";
+import { PRODUCT_REVIEW_CREATE_RESET } from "../constants/productConstants";
 
 
 const ProductScreen = () => {
@@ -15,17 +31,36 @@ const ProductScreen = () => {
     const navigate = useNavigate();
 
     const [qty, setQty] = useState(1);
+    const [rating, setRating] = useState(1);
+    const [comment, setComment] = useState('');
 
     const productDetails = useSelector((state) => state.productDetails);
     const { loading, product, error } = productDetails;
 
+    const userLogin = useSelector((state) => state.userLogin);
+    const { userInfo } = userLogin;
+
+    const productReviewCreate = useSelector((state) => state.productReviewCreate);
+    const { success: successProductReview , error: errorProductReview} = productReviewCreate;
+
     useEffect(() => {
+        if (successProductReview) {
+            alert('Review submitted');
+            setRating(1);
+            setComment('');
+            dispatch({type: PRODUCT_REVIEW_CREATE_RESET });
+        }
         dispatch(listProductDetails(id));
-    }, [id, dispatch ]);
+    }, [id, dispatch, successProductReview ]);
 
     const addToCartHandler = () => {
         navigate(`/cart/${id}?qty=${qty}`);
     };
+
+    const submitHandler = (e) => {
+        e.preventDefault();
+        dispatch(createProductReview(id, {rating, comment}));
+    }
 
     return (
         <>
@@ -40,6 +75,7 @@ const ProductScreen = () => {
         ) : error ? (
             <Message type='error'>{error}</Message>
         ) : (
+            <>
         <Grid templateColumns='5fr 4fr 3fr' display = {{ base: 'contents', md: 'grid'}} gap='10'>
 {/*                  *                * Column 1  *                 *                              */             }
             <Image src={product.image} alt={product.name} borderRadius='md' />
@@ -120,7 +156,80 @@ const ProductScreen = () => {
                 Add to Cart
             </Button>
             </Grid>
-        </Grid>
+            </Grid>
+                        {/* Review Display and Form */}
+
+                        <Box
+            p='10'
+            bgColor='white'
+            rounded='md'
+            mt='10'
+            borderColor='gray.300'>
+                <Heading as='h3' size='lg' mb='6'>
+                    Write a review
+                </Heading>
+                {product.reviews && product.reviews.length === 0 && (
+                    <Message >No Reviews</Message>
+                )}
+
+                {product.reviews && product.reviews.length !== 0 && (
+                    <Box p='4' bgColor='white' rounded='md' mb='1' mt='5'>
+                        {product.reviews.map((review) => (
+                            <Flex direction='column' key={review._id} mb='5'>
+                                <Flex justifyContent='space-between' >
+                                    <Text fontSize='lg'>
+                                        <strong>{review.name}</strong>
+                                    </Text>
+                                    <Rating value={review.rating}/>
+                                </Flex>
+                                <Text mt='2' >{review.comment}</Text>
+                            </Flex>
+                        ))}
+                    </Box>
+                )}
+
+                {errorProductReview && (
+                    <Message type='error' >{errorProductReview}</Message>
+                )}
+
+                {userInfo ? (
+                    <form onSubmit={submitHandler} >
+                        <FormControl id="rating" mb='3' >
+                            <FormLabel>Rating</FormLabel>
+                            <Select
+                            placeholder='Select Option'
+                            value={rating}
+                            onChange={(e) => setRating(e.target.value)}
+                            >
+                            <option>Select...</option>
+                            <option value='1' >1 - Poor</option>
+                            <option value='2' >2 - Okay</option>
+                            <option value='3' >3 - Good</option>
+                            <option value='4' >4 - Very Good</option>
+                            <option value='5' >5 - Excellent</option>
+                            </Select>
+                        </FormControl>
+
+                        <FormControl id='comment' mb='3' >
+                            <FormLabel>Comment</FormLabel>
+                            <Textarea
+                                value={comment}
+                                onChange={(e) => setComment(e.target.value)}></Textarea>
+                        </FormControl>
+
+                        <Button
+                        color='white'
+                        bgColor='black'
+                        type='submit' 
+                        >
+                            Post
+                        </Button>
+                    </form>
+                ) : (
+                    <Message>Please login to write a review</Message>
+                )}
+            </Box>
+        </>
         )}
         </>
     );

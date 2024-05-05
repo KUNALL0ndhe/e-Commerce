@@ -1,6 +1,5 @@
 import asyncHandler from 'express-async-handler';
 import Product from '../models/productModel.js';
-
 /**
 *  @description   Get all products
    @route        Get /api/products
@@ -123,12 +122,14 @@ const createProductReview = asyncHandler(async (req, res) => {
             throw new Error('Product already reviewed');
         }
 
+
         const review = {
             name: req.user.name,
             rating: +rating,
             comment,
             user: req.user._id,
         };
+
         product.reviews.push(review);
         product.numReviews = product.reviews.length;
         product.rating = 
@@ -141,13 +142,14 @@ const createProductReview = asyncHandler(async (req, res) => {
         res.status(404);
         throw new Error('Product not found');
     }
+    
 });
 
 export { 
     getProducts,
     createProductReview,
+    updateProduct,
     createProduct,
     deleteProduct,
     getProductById,
-    updateProduct,
-}
+    };

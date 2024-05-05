@@ -78,7 +78,7 @@ const ProfileScreen = () => {
 	};
 
 	return (
-		<Grid templateColumns={{ sm: '1fr', md: '1fr 1fr' }} py='5' gap='10'>
+		<Grid templateColumns={{ sm: '1fr', md: '0.5fr 1fr' }} py='5' gap='1'>
 			<Flex w='full' fontFamily='Montserrat' alignItems='center' justifyContent='center' py='5'>
 				<FormContainer>
 					<Heading as='h1' mb='8' fontSize='3xl'>
@@ -147,7 +147,7 @@ const ProfileScreen = () => {
 			</Flex>
 
 			{/* Orders */}
-			<Flex direction='column'>
+			<Flex direction='column' w='full'>
 				<Heading as='h2' mb='4'>
 					My Orders
 				</Heading>

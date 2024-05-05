@@ -149,7 +149,7 @@ const OrderScreen = () => {
 														fontWeight='bold'
 														fontSize='xl'
 														as={RouterLink}
-														to={`/products/${item.product}`}>
+														to={`/home/product/${item.product}`}>
 														{item.name}
 													</Link>
 												</Flex>
