@@ -1,12 +1,28 @@
-import { Box, Flex, Grid, Heading, Image, Link, Text } from '@chakra-ui/react';
+import { 
+	Box,
+	Button,
+	Flex,
+	Grid,
+	Heading,
+	Image,
+	Link,
+	Text
+} from '@chakra-ui/react';
 import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink, useParams } from 'react-router-dom';
-import { getOrderDetails, payOrder } from '../actions/orderAction';
+import {
+	deliverOrder,
+	getOrderDetails,
+	payOrder,
+} from '../actions/orderAction';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { ORDER_PAY_RESET } from '../constants/orderConstants';
+import { 
+	ORDER_DELIVER_RESET,
+	ORDER_PAY_RESET
+} from '../constants/orderConstants';
 
 const OrderScreen = () => {
 	const dispatch = useDispatch();
@@ -18,6 +34,12 @@ const OrderScreen = () => {
 	const orderPay = useSelector((state) => state.orderPay);
 	const { loading: loadingPay, success: successPay } = orderPay;
 
+	const orderDeliver = useSelector((state) => state.orderDeliver);
+	const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
+
+	const userLogin = useSelector((state) => state.userLogin);
+	const { userInfo } = userLogin;
+
 	if (!loading) {
 		order.itemsPrice = order.orderItems.reduce(
 			(acc, currVal) => acc + currVal.price * currVal.qty,
@@ -27,13 +49,16 @@ const OrderScreen = () => {
 
 	useEffect(() => {
 		dispatch({ type: ORDER_PAY_RESET });
+		dispatch({type: ORDER_DELIVER_RESET});
 
 		dispatch(getOrderDetails(orderId));
-	}, [dispatch, orderId, successPay]);
+	}, [dispatch, orderId, successPay, successDeliver]);
 
 	const successPaymentHandler = (paymentResult) => {
 		dispatch(payOrder(orderId, paymentResult));
 	};
+
+	const deliverHandler = () => dispatch(deliverOrder(order));
 
 	return loading ? (
 		<Loader />
@@ -68,7 +93,7 @@ const OrderScreen = () => {
 							<Text mt='4'>
 								{order.isDelivered ? (
 									<Message type='success'>
-										Delivered on {order.deliveredAt}
+										Delivered on {new Date(order.deliveredAt).toUTCString()}
 									</Message>
 								) : (
 									<Message type='warning'>Not Delivered</Message>
@@ -248,6 +273,22 @@ const OrderScreen = () => {
 									</PayPalScriptProvider>
 								)}
 							</Box>
+						)}
+
+						{/* Order Deliver Button */}
+						{
+							loadingDeliver && <Loader/>
+						}
+						{ userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+							<Button 
+							type='button'
+							color='white'
+							bgColor='black'
+							_hover={{color:'black', bgColor: 'white'}}
+							onClick={deliverHandler}
+							>
+								Mark as Delivered
+							</Button>
 						)}
 					</Flex>
 				</Grid>
